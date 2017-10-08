@@ -3,15 +3,18 @@ package com.restful.demo.persistent;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name ="Prescription")
+@XmlRootElement(name = "Prescription")
 public class Prescription {
 
 	private long id;
 	private String description;
 
-	Map<Long, Medicine> prescriptions = new HashMap<Long, Medicine>();
+	Map<Long, Medicine> medicines = new HashMap<Long, Medicine>();
 
 	public Prescription() {
 		init();
@@ -33,17 +36,19 @@ public class Prescription {
 		this.description = description;
 	}
 
-	public Map<Long, Medicine> getPrescriptions() {
-		return prescriptions;
+	public Map<Long, Medicine> getMedicines() {
+		return medicines;
 	}
 
-	public void setPrescriptions(Map<Long, Medicine> prescriptions) {
-		this.prescriptions = prescriptions;
+	public void setMedicines(Map<Long, Medicine> medicines) {
+		this.medicines = medicines;
 	}
-	
-	public Medicine getMedicine(int medicineid) {
-		System.out.println("----invoking getMedicine with id: " + medicineid);
-		Medicine medicine = prescriptions.get(new Long(medicineid));
+
+	@GET
+	@Path("/medicines/{id}")
+	public Medicine getMedicine(@PathParam("id") int medicineid) {
+		System.out.println("----Inside getMedicine with id: " + medicineid);
+		Medicine medicine = medicines.get(new Long(medicineid));
 		return medicine;
 	}
 
@@ -51,7 +56,7 @@ public class Prescription {
 		Medicine medicine = new Medicine();
 		medicine.setId(123);
 		medicine.setDescription("Medicine 123");
-		prescriptions.put(medicine.getId(), medicine);
+		medicines.put(medicine.getId(), medicine);
 	}
 
 }

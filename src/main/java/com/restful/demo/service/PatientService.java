@@ -31,7 +31,7 @@ public interface PatientService {
 	@Path("/patients/{id}")
 	public Response deletePatients(@PathParam("id") String id);
 
-	@GET
-	public Prescription getPrescription(String prescriptionId);
+	@Path("/prescriptions/{id}")
+	public Prescription getPrescription(@PathParam("id") String prescriptionId);
 
 }

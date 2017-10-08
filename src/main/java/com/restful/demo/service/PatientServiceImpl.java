@@ -26,7 +26,7 @@ public class PatientServiceImpl implements PatientService {
 
 		Prescription prescription = new Prescription();
 		prescription.setDescription("prescription 22");
-		prescription.setId(223);
+		prescription.setId(22);
 		prescriptions.put(prescription.getId(), prescription);
 	}
 
@@ -83,8 +83,9 @@ public class PatientServiceImpl implements PatientService {
 
 	@Override
 	public Prescription getPrescription(String prescriptionId) {
-		// TODO Auto-generated method stub
-		return null;
+		long id = Long.parseLong(prescriptionId);
+		Prescription prescription = prescriptions.get(id);
+		return prescription;
 	}
 
 }
