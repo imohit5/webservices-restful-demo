@@ -3,8 +3,11 @@ package com.restful.demo.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
+import com.restful.demo.exceptions.BusinessException;
 import com.restful.demo.persistent.Patient;
 import com.restful.demo.persistent.Prescription;
 
@@ -35,6 +38,11 @@ public class PatientServiceImpl implements PatientService {
 		System.out.println("Inside getPatient - patient name is: " + id);
 		long parseLong = Long.parseLong(id);
 		Patient patient = patients.get(parseLong);
+		
+		if (patient == null) {
+			throw new WebApplicationException(Response.Status.NOT_FOUND);
+		}
+		
 		return patient;
 	}
 
@@ -49,7 +57,8 @@ public class PatientServiceImpl implements PatientService {
 			patients.put(patient.getId(), patient);
 			response = Response.ok().build();
 		} else {
-			response = Response.notModified().build();
+			//response = Response.notModified().build();
+			throw new NotFoundException();
 		}
 
 		return response;
@@ -69,13 +78,14 @@ public class PatientServiceImpl implements PatientService {
 		long parseLong = Long.parseLong(id);
 		Patient patient = patients.get(parseLong);
 
-		Response response;
+		Response response = null;
 
 		if (patient != null) {
 			patients.remove(patient.getId());
 			response = Response.ok().build();
 		} else {
-			response = Response.notModified().build();
+			//response = Response.notModified().build();
+				throw new BusinessException("Cannot delete, no record found");
 		}
 
 		return response;
